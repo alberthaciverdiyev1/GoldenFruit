@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+{{> layout.head}}
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+{{#if uselayout}}
+
+    {{> layout.mobileMenu}}
+    {{> layout.navbar}}
+
+    {{{ body}}}
+
+
+    {{> layout.footer}}
+
+{{else}}
+    {{{body}}}
+{{/if}}
+
+{{> layout.js}}
+</body>
+
+</html>
