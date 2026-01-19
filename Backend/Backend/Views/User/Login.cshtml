@@ -1,0 +1,58 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş - Golden Fruit</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <h2>Golden<span>Fruit</span></h2>
+                </div>
+                <p>İdarəetmə panelinə xoş gəlmisiniz</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                @Html.AntiForgeryToken()
+                <div class="input-group">
+                    <label>İstifadəçi adı və ya Email</label>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="Username" placeholder="Adınızı daxil edin" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Şifrə</label>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="Password" placeholder="Şifrənizi daxil edin" required>
+                        <i class="fas fa-eye show-pass"></i>
+                    </div>
+                </div>
+
+                <div id="errorMessages" class="error-message"></div>
+
+                <button type="submit" class="btn-login">
+                    Daxil Ol <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>&copy; 2024 Golden Fruit. Bütün hüquqlar qorunur.</p>
+            </div>
+        </div>
+    </div>
+<script src="js/login.js"></script>
+
+</body>
+</html>

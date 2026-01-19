@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --gold: #FFD700;
+    --dark-green: #2d6a4f;
+    --bg-color: #f8f9fa;
+    --white: #ffffff;
+    --text-main: #2c3e50;
+    --text-muted: #7f8c8d;
+    --shadow: 0 10px 30px rgba(0,0,0,0.08);
+    --border-color: #e0e0e0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: radial-gradient(#2d6a4f 0.5px, transparent 0.5px), radial-gradient(#2d6a4f 0.5px, #f8f9fa 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    /* Yüngül nöqtəli fon effekti */
+}
+
+.login-wrapper {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.login-card {
+    background: var(--white);
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+/* Logo Hissəsi */
+.auth-header { margin-bottom: 35px; }
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.logo i { color: var(--gold); font-size: 32px; }
+.logo h2 { color: var(--dark-green); font-size: 28px; }
+.logo span { color: var(--gold); }
+.auth-header p { color: var(--text-muted); font-size: 14px; }
+
+/* Form Hissəsi */
+.input-group { margin-bottom: 20px; text-align: left; }
+.input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.input-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-field i {
+    position: absolute;
+    left: 15px;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.input-field i.show-pass {
+    left: auto;
+    right: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.input-field i.show-pass:hover { color: var(--dark-green); }
+
+.input-field input {
+    width: 100%;
+    padding: 14px 40px; /* İkon üçün yer */
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+    background: #FAFAFA;
+}
+
+.input-field input:focus {
+    border-color: var(--gold);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+}
+
+/* Seçimlər (Checkbox & Link) */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+.checkbox-container input { accent-color: var(--dark-green); cursor: pointer; }
+
+.forgot-pass {
+    color: var(--dark-green);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.forgot-pass:hover { color: var(--gold); }
+
+/* Düymə */
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    background: var(--dark-green); /* Login üçün tünd yaşıl daha güvən verir */
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-login:hover {
+    background: #1b4d36;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(45, 106, 79, 0.2);
+}
+
+.btn-login i { font-size: 14px; }
+
+/* Footer */
+.auth-footer { margin-top: 30px; font-size: 12px; color: #b0b0b0; }
+
+/* Responsive */
+@media (max-width: 480px) {
+    .login-card { padding: 30px 20px; }
+    .logo h2 { font-size: 24px; }
+}
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+    list-style-type: none; 
+    padding-left: 0;   
+}

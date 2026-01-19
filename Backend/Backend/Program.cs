@@ -1,4 +1,5 @@
 using Backend.Data;
+using Backend.Mapping;
 using Backend.Repositories.Implementations;
 using Backend.Repositories.Interfaces;
 using Backend.Services.Implementations;
@@ -12,6 +13,9 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connect
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//Mapper
+builder.Services.AddAutoMapper(cfg => { cfg.AddProfile<MappingProfile>(); });
+//END Mapper
 //DI
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
