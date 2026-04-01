@@ -1,6 +1,6 @@
 const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
-const rawTransactions = [
+let rawTransactions = [
     { id: 1, date: '2026-03-01', type: 'Sale', amount: 1200, note: 'Topdan satiş - Alma' },
     { id: 2, date: '2026-03-05', type: 'Purchase', amount: 500, note: 'Gübrə alışı' },
     { id: 3, date: '2026-03-10', type: 'Sale', amount: 3050.50, note: 'Eksport - Rusiya bazarı' },
@@ -32,5 +32,37 @@ export const CustomerService = {
             lastUpdate: new Date().toLocaleDateString(),
             transactions: filtered
         };
+    },
+    create: async (newData) => {
+        await delay(500);
+        const newEntry = {
+            id: Math.floor(Math.random() * 10000),
+            date: new Date().toISOString().split('T')[0],
+            ...newData,
+            amount: parseFloat(newData.amount || 0)
+        };
+        rawTransactions.push(newEntry);
+        return { success: true, data: newEntry };
+    },
+
+
+    update: async (id, updatedData) => {
+        await delay(500);
+        const index = rawTransactions.findIndex(t => t.id === id);
+        if (index !== -1) {
+            rawTransactions[index] = {
+                ...rawTransactions[index],
+                ...updatedData,
+                amount: parseFloat(updatedData.amount || rawTransactions[index].amount)
+            };
+            return { success: true, data: rawTransactions[index] };
+        }
+        throw new Error("Məlumat tapılmadı");
+    },
+
+    delete: async (id) => {
+        await delay(500);
+        rawTransactions = rawTransactions.filter(t => t.id !== id);
+        return { success: true };
     }
 };
