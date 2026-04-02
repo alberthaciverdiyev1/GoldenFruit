@@ -9,6 +9,7 @@ import EmployeeScreen from '../screens/Employees/EmployeeList';
 import CustomerStack from "./CustomerStack";
 import ProductStack from "./ProductStack";
 import SaleStack from "./SaleStack";
+import PurchaseStack from "./PurchaseStack";
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -62,6 +63,15 @@ function MobileTabs() {
             <Tab.Screen
                 name="Satislar"
                 component={SaleStack}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="package-variant" color={color} size={size} />
+                    )
+                }}
+            />
+            <Tab.Screen
+                name="Alislar"
+                component={PurchaseStack}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="package-variant" color={color} size={size} />
@@ -125,6 +135,15 @@ export default function DrawerNavigator() {
                     <Drawer.Screen
                         name="Satislar"
                         component={SaleStack}
+                        options={{
+                            drawerIcon: ({ color, size }) => (
+                                <MaterialCommunityIcons name="package-variant" color={color} size={size} />
+                            )
+                        }}
+                    />
+                    <Drawer.Screen
+                        name="Alislar"
+                        component={PurchaseStack}
                         options={{
                             drawerIcon: ({ color, size }) => (
                                 <MaterialCommunityIcons name="package-variant" color={color} size={size} />
