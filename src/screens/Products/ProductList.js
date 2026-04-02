@@ -74,10 +74,37 @@ export default function ProductList({ navigation }) {
                             </Button>
                         </View>
                         <DataTable.Header style={styles.tableHeader}>
-                            <DataTable.Title style={{ flex: 2.5 }}>Məhsul</DataTable.Title>
-                            <DataTable.Title numeric style={{ flex: 1 }}>Stok</DataTable.Title>
-                            <DataTable.Title numeric style={{ flex: 1.2 }}>Alış</DataTable.Title>
-                            <DataTable.Title numeric style={{ flex: 1.2 }}>Satış</DataTable.Title>
+                            <DataTable.Title
+                                style={{ flex: 2.5 }}
+                                textStyle={styles.headerText}
+                            >
+                                Məhsul
+                            </DataTable.Title>
+
+                            <DataTable.Title
+                                numeric
+                                style={{ flex: 1 }}
+                                textStyle={styles.headerText}
+                            >
+                                Stok
+                            </DataTable.Title>
+
+                            <DataTable.Title
+                                numeric
+                                style={{ flex: 1.2 }}
+                                textStyle={styles.headerText}
+                            >
+                                Alış
+                            </DataTable.Title>
+
+                            <DataTable.Title
+                                numeric
+                                style={{ flex: 1.2 }}
+                                textStyle={styles.headerText}
+                            >
+                                Satış
+                            </DataTable.Title>
+
                             <DataTable.Title style={{ flex: 0.8 }}></DataTable.Title>
                         </DataTable.Header>
                     </Surface>
@@ -91,21 +118,21 @@ export default function ProductList({ navigation }) {
                                     <Text style={styles.productName} numberOfLines={1}>{item.name}</Text>
                                 </View>
                             </DataTable.Cell>
-                            <DataTable.Cell numeric style={{ flex: 1, justifyContent: 'center' }}>
+                            <DataTable.Cell numeric style={{ flex: 1, }}>
                                 <View style={[
                                     styles.stockBadge,
-                                    { backgroundColor: item.stock < 50 ? '#fee2e2' : '#dcfce7' } // Arxa fon rəngini yumşaltdıq
+                                    { backgroundColor: item.stock < 50 ? '#fee2e2' : '#dcfce7' }
                                 ]}>
                                     <Text style={[
                                         styles.stockText,
-                                        { color: item.stock < 50 ? '#ef4444' : '#10b981' } // Yazı rəngini tünd etdik
+                                        { color: item.stock < 50 ? '#ef4444' : '#10b981' }
                                     ]}>
                                         {item.stock}
                                     </Text>
                                 </View>
                             </DataTable.Cell>
-                            <DataTable.Cell numeric style={{ flex: 1.2 }}>{item.buyingPrice.toFixed(2)}</DataTable.Cell>
-                            <DataTable.Cell numeric style={{ flex: 1.2 }}>{item.sellingPrice.toFixed(2)}</DataTable.Cell>
+                            <DataTable.Cell numeric style={{ flex: 1.2 }}>{item.buyingPrice.toFixed(2)} AZN</DataTable.Cell>
+                            <DataTable.Cell numeric style={{ flex: 1.2 }}>{item.sellingPrice.toFixed(2)} AZN</DataTable.Cell>
                             <DataTable.Cell style={{ flex: 0.8, justifyContent: 'flex-end' }}>
                                 <IconButton icon="pencil" size={18} onPress={() => openModal(item)} />
                                 <IconButton icon="eye" size={18} onPress={() => navigation.navigate('ProductDetails', { productId: item.id })} />
@@ -133,8 +160,18 @@ const styles = StyleSheet.create({
     headerActionRow: { flexDirection: 'row', padding: 12, alignItems: 'center', gap: 10  },
     searchBar: { flex: 1, backgroundColor: '#f1f5f9', borderRadius: 8, height: 45 },
     addBtn: { backgroundColor: Colors.primary, borderRadius: 8 },
-    tableHeader: { backgroundColor: '#f8fafc', height: 45 },
-    rowCard: { marginBottom: 6, marginHorizontal: 10, borderRadius: 8, backgroundColor: 'white' },
+    tableHeader: {
+        backgroundColor: '#f8fafc',
+        height: 55,
+        borderBottomWidth: 1,
+        borderBottomColor: '#e2e8f0'
+    },
+    headerText: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#1e293b',
+        textTransform: 'uppercase',
+    },    rowCard: { marginBottom: 6, marginHorizontal: 10, borderRadius: 8, backgroundColor: 'white' },
     row: { height: 65 },
     productName: { fontWeight: 'bold', fontSize: 14 },
     productId: { fontSize: 10, color: '#64748b' },
@@ -146,11 +183,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        // Kənarları rəngin tünd tonu ilə bir az bəlli edirik (opsional)
         borderColor: 'rgba(0,0,0,0.05)',
     },
     stockText: {
-        fontSize: 14, // 20 çox böyükdür, cədvəli dağıdır. 14-15 ideal dərəcədir.
+        fontSize: 14,
         fontWeight: 'bold',
     },
 });
