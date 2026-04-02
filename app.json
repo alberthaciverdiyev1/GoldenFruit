@@ -1,4 +1,4 @@
-{
+  {
   "expo": {
     "name": "GoldenFruit",
     "slug": "GoldenFruit",
@@ -23,7 +23,10 @@
       "edgeToEdgeEnabled": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "single",
+      "publicPath": "./"
     }
   }
 }

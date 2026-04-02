@@ -1,6 +1,9 @@
+import React, { useEffect, useState } from 'react';
 import { MD3LightTheme, PaperProvider } from 'react-native-paper';
-import {NavigationContainer} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import DrawerNavigator from "./src/navigation/DrawerNavigator";
+import * as Font from 'expo-font';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const theme = {
     ...MD3LightTheme,
@@ -12,6 +15,28 @@ const theme = {
 };
 
 export default function App() {
+    const [fontsLoaded, setFontsLoaded] = useState(false);
+
+    useEffect(() => {
+        async function loadFonts() {
+            try {
+                await Font.loadAsync({
+                    ...MaterialCommunityIcons.font,
+                });
+            } catch (e) {
+                console.warn("Font yüklenirken hata oluştu:", e);
+            } finally {
+                setFontsLoaded(true);
+            }
+        }
+        loadFonts();
+    }, []);
+
+    // Fontlar yüklenene kadar boş dön (ReferenceError'u engeller)
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
         <PaperProvider theme={theme}>
             <NavigationContainer>

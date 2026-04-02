@@ -8,6 +8,7 @@ import { Colors } from '../constants/Colors';
 import EmployeeScreen from '../screens/Employees/EmployeeList';
 import CustomerStack from "./CustomerStack";
 import ProductStack from "./ProductStack";
+import SaleStack from "./SaleStack";
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -58,6 +59,15 @@ function MobileTabs() {
                     )
                 }}
             />
+            <Tab.Screen
+                name="Satislar"
+                component={SaleStack}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="package-variant" color={color} size={size} />
+                    )
+                }}
+            />
         </Tab.Navigator>
     );
 }
@@ -83,7 +93,6 @@ export default function DrawerNavigator() {
         >
             <Drawer.Screen
                 name="MainContent"
-                // Əgər böyük ekrandırsa Stack-ləri birbaşa göstər, mobildirsə Tab-ı göstər
                 component={isLargeScreen ? CustomerStack : MobileTabs}
                 options={{
                     drawerLabel: 'Müştərilər',
@@ -93,7 +102,6 @@ export default function DrawerNavigator() {
                 }}
             />
 
-            {/* Desktop Drawer-də digər düymələr */}
             {isLargeScreen && (
                 <>
                     <Drawer.Screen
@@ -108,6 +116,15 @@ export default function DrawerNavigator() {
                     <Drawer.Screen
                         name="Məhsullar"
                         component={ProductStack}
+                        options={{
+                            drawerIcon: ({ color, size }) => (
+                                <MaterialCommunityIcons name="package-variant" color={color} size={size} />
+                            )
+                        }}
+                    />
+                    <Drawer.Screen
+                        name="Satislar"
+                        component={SaleStack}
                         options={{
                             drawerIcon: ({ color, size }) => (
                                 <MaterialCommunityIcons name="package-variant" color={color} size={size} />

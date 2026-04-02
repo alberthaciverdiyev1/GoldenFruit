@@ -1,12 +1,19 @@
 {
   "name": "goldenfruit",
   "version": "1.0.0",
+  "description": "GoldenFruit ERP System",
+  "author": "Albert Haciverdiyev",
+  "homepage": ".",
   "main": "index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "electron": "electron electron-main.js",
+    "web-build": "npx expo export -p web && powershell -Command \"Get-ChildItem -Path dist -Filter *.js,*.html,*.json -Recurse | ForEach-Object { $content = Get-Content $_.FullName -Raw; $content = $content -replace 'src=\\\"/_expo', 'src=\\\"./_expo' -replace 'href=\\\"/_expo', 'href=\\\"./_expo' -replace 'src=\\\"/assets', 'src=\\\"./assets' -replace '\"/_expo', '\"./_expo' -replace '\"/assets', '\"./assets'; [IO.File]::WriteAllText($_.FullName, $content) }\"",
+    "dist": "npm run web-build && electron-builder",
+    "dev": "concurrently \"npx expo start --web\" \"wait-on http://localhost:8081 && npx electron electron-main.js\""
   },
   "dependencies": {
     "@expo/vector-icons": "^15.1.1",
@@ -16,6 +23,7 @@
     "@react-navigation/native": "^7.2.2",
     "@react-navigation/stack": "^7.8.9",
     "expo": "~54.0.33",
+    "expo-font": "^55.0.4",
     "expo-status-bar": "~3.0.9",
     "nativewind": "^4.2.3",
     "react": "19.1.0",
@@ -28,8 +36,28 @@
     "react-native-web": "^0.21.2",
     "tailwindcss": "^3.4.19"
   },
-  "private": true,
   "devDependencies": {
-    "babel-preset-expo": "^55.0.13"
-  }
+    "@expo/metro-config": "~0.19.0",
+    "babel-preset-expo": "^55.0.13",
+    "concurrently": "^9.2.1",
+    "electron": "^41.1.1",
+    "electron-builder": "^26.8.1"
+  },
+  "build": {
+    "appId": "com.albert.goldenfruit",
+    "productName": "GoldenFruit",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron-main.js",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.png"
+    }
+  },
+  "private": true
 }

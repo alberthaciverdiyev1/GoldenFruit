@@ -47,7 +47,6 @@ export default function CustomerDetails({ route, navigation }) {
         fetchData();
     }, [filterType, startDate, endDate]);
 
-    // Tarix dəyişmə funksiyaları
     const onStartChange = (event, selectedDate) => {
         setShowStartPicker(false);
         if (selectedDate) setStartDate(selectedDate);
@@ -70,10 +69,8 @@ export default function CustomerDetails({ route, navigation }) {
         <View style={styles.container}>
             {/* Header Area */}
             <View style={styles.header}>
-                <IconButton icon="arrow-left" size={28} onPress={() => navigation.goBack()} />
                 <View style={{ flex: 1 }}>
                     <Text style={styles.customerName}>{customer.name} {customer.surname}</Text>
-                    <Text style={styles.customerSubtitle}>ID: #{customer.id} | {customer.phone}</Text>
                 </View>
             </View>
 
@@ -141,6 +138,7 @@ export default function CustomerDetails({ route, navigation }) {
                 </Surface>
 
                 {/* Transactions Table */}
+                {/* Transactions Table */}
                 <Surface style={styles.tableCard}>
                     <ScrollView horizontal showsHorizontalScrollIndicator={true}>
                         <View style={{ width: width < 1024 ? 900 : width - 280, maxWidth: 1400 }}>
@@ -153,30 +151,44 @@ export default function CustomerDetails({ route, navigation }) {
                                     <DataTable.Title numeric style={{ flex: 1.2 }}>Əməliyyat</DataTable.Title>
                                 </DataTable.Header>
 
-                                {data?.transactions.map((t) => (
-                                    <DataTable.Row key={t.id} style={styles.row}>
-                                        <DataTable.Cell style={{ flex: 1.2 }}>{t.date}</DataTable.Cell>
-                                        <DataTable.Cell style={{ flex: 1 }}>
-                                            <Text style={{ color: t.type === 'Sale' ? '#10b981' : '#ef4444', fontWeight: 'bold' }}>
-                                                {t.type === 'Sale' ? 'Satış' : 'Alış'}
-                                            </Text>
-                                        </DataTable.Cell>
-                                        <DataTable.Cell style={{ flex: 3 }}>{t.note}</DataTable.Cell>
-                                        <DataTable.Cell numeric style={{ flex: 1.5 }}>
-                                            <Text style={styles.amountText}>{t.amount.toFixed(2)} AZN</Text>
-                                        </DataTable.Cell>
-                                        <DataTable.Cell numeric style={{ flex: 1.2 }}>
-                                            <Button
-                                                mode="contained-tonal"
-                                                onPress={() => navigation.navigate('TransactionDetail', { id: t.id })}
-                                                contentStyle={{ height: 35 }}
-                                                labelStyle={{ fontSize: 11 }}
-                                            >
-                                                Bax
-                                            </Button>
-                                        </DataTable.Cell>
-                                    </DataTable.Row>
-                                ))}
+                                {loading ? (
+                                    <View style={{ padding: 50, alignItems: 'center', justifyContent: 'center' }}>
+                                        <ActivityIndicator size="large" color={Colors.primary} />
+                                        <Text style={{ marginTop: 10, color: '#64748b' }}>Məlumatlar yenilənir...</Text>
+                                    </View>
+                                ) : (
+                                    data?.transactions.map((t) => (
+                                        <DataTable.Row key={t.id} style={styles.row}>
+                                            <DataTable.Cell style={{ flex: 1.2 }}>{t.date}</DataTable.Cell>
+                                            <DataTable.Cell style={{ flex: 1 }}>
+                                                <Text style={{ color: t.type === 'Sale' ? '#10b981' : '#ef4444', fontWeight: 'bold' }}>
+                                                    {t.type === 'Sale' ? 'Satış' : 'Alış'}
+                                                </Text>
+                                            </DataTable.Cell>
+                                            <DataTable.Cell style={{ flex: 3 }}>{t.note}</DataTable.Cell>
+                                            <DataTable.Cell numeric style={{ flex: 1.5 }}>
+                                                <Text style={styles.amountText}>{t.amount.toFixed(2)} AZN</Text>
+                                            </DataTable.Cell>
+                                            <DataTable.Cell numeric style={{ flex: 1.2 }}>
+                                                <Button
+                                                    mode="contained-tonal"
+                                                    onPress={() => navigation.navigate('TransactionDetail', { id: t.id })}
+                                                    contentStyle={{ height: 35 }}
+                                                    labelStyle={{ fontSize: 11 }}
+                                                >
+                                                    Bax
+                                                </Button>
+                                            </DataTable.Cell>
+                                        </DataTable.Row>
+                                    ))
+                                )}
+
+                                {/* Data boşdursa və loading deyilsə mesaj göstər */}
+                                {!loading && data?.transactions.length === 0 && (
+                                    <View style={{ padding: 20, alignItems: 'center' }}>
+                                        <Text>Bu tarixlərdə əməliyyat tapılmadı.</Text>
+                                    </View>
+                                )}
                             </DataTable>
                         </View>
                     </ScrollView>
@@ -201,7 +213,7 @@ const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#f1f5f9' },
     centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     header: { flexDirection: 'row', alignItems: 'center', padding: 15, backgroundColor: 'white' },
-    customerName: { fontSize: 22, fontWeight: 'bold' },
+    customerName: { fontSize: 22, fontWeight: 'bold',display:"flex",justifyContent:"center",alignItems: 'center' },
     customerSubtitle: { fontSize: 13, color: '#64748b' },
     scrollContent: { padding: 16, alignItems: 'center' },
     kpiRow: { flexDirection: 'row', gap: 16, marginBottom: 20, width: '100%', maxWidth: 1400 },
