@@ -1,0 +1,62 @@
+---
+const menuItems = [
+    {name: 'Dashboard', href: '/', icon: 'layout-dashboard'},
+    {name: 'Customers', href: '/customers', icon: 'users'},
+    {name: 'Employees', href: '/employees', icon: 'user-check'},
+    {name: 'Kaset', href: '/bags', icon: 'archive'},
+    {name: 'Products', href: '/products', icon: 'package'},
+    {name: 'Sales', href: '/sales', icon: 'shopping-cart'},
+    {name: 'Purchases', href: '/purchases', icon: 'shopping-bag'},
+    {name: 'Anbar Xərcləri', href: '/expenses', icon: 'wallet'},
+    {name: 'Avans', href: '/advances', icon: 'banknote'},
+    {name: 'Şoförlər', href: '/drivers', icon: 'truck'},
+    {name: 'İxrac', href: '/exports', icon: 'globe'},
+    {name: 'Stok Qalıqları', href: '/stockbalances', icon: 'scale'},
+];
+---
+
+<aside class="w-64 bg-slate-900 text-white flex flex-col border-r border-slate-800 h-screen fixed">
+    <div class="p-6 text-2xl font-bold text-orange-500 border-b border-slate-800">
+        GoldenFruit
+    </div>
+
+    <nav class="flex-1 mt-4 overflow-y-auto">
+        {menuItems.map(item => (
+                <a href={item.href}
+                   class="flex items-center gap-3 px-6 py-4 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                    <i data-lucide={item.icon}></i>
+                    <span>{item.name}</span>
+                </a>
+        ))}
+    </nav>
+
+    <div class="p-4 border-t border-slate-800">
+        <button onclick="checkForUpdates()"
+                class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all text-sm font-medium">
+            <i data-lucide="cloud-download"></i>
+            <span>Yeniləmə</span>
+        </button>
+    </div>
+</aside>
+
+<script>
+    import {createIcons, Users, UserCheck, Package, ShoppingCart, LayoutDashboard, Archive, ShoppingBag, Wallet, Banknote, Truck, Globe, Scale, CloudDownload} from 'lucide';
+
+    createIcons({
+        icons: {
+            Users,
+            UserCheck,
+            Package,
+            ShoppingCart,
+            LayoutDashboard,
+            Archive,
+            ShoppingBag,
+            Wallet,
+            Banknote,
+            Truck,
+            Globe,
+            Scale,
+            CloudDownload
+        }
+    });
+</script>

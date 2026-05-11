@@ -1,0 +1,87 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="Müşteri Yönetimi">
+    <div class="ml-64 min-h-screen">
+        <div class="p-8">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-800 tracking-tight">Məhsullar</h1>
+                </div>
+                <button
+                        onclick="openProductModal()"
+                        class="bg-orange-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-orange-200 hover:bg-orange-600 transition-all active:scale-95 font-semibold flex items-center gap-2"
+                >
+                    <i class='bx bx-plus-circle text-xl'></i> Yeni Məhsul
+                </button>
+            </div>
+
+            <div id="product-container" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-20 text-center">
+                    <div class="animate-spin inline-block w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full mb-4"></div>
+                    <p class="text-slate-400 animate-pulse">Connecting To Database...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="product-modal"
+         class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div class="p-6 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
+                <h3 id="modal-title" class="text-xl font-bold text-slate-800">Product Formu</h3>
+                <button onclick="closeProductModal()"
+                        class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-200 text-slate-500 transition-colors">
+                    ✕
+                </button>
+            </div>
+            <form id="product-form" class="p-8 space-y-5">
+                <input type="hidden" id="product-id"/>
+
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 ml-1">Ad</label>
+                    <input type="text" id="prod-name" required
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none transition-all"
+                           placeholder="Exp: Alma"/>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 ml-1">Stock</label>
+                    <input type="number" min="0" step="0.1" id="prod-stock" required
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none transition-all"
+                           placeholder="Exp: 1"/>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 ml-1">Alış Qiyməti</label>
+                    <input type="number" min="0" step="0.1" id="prod-buyingPrice"
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none transition-all"
+                           placeholder="5.30"/>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 ml-1">Satış Qiyməti</label>
+                    <input type="number" min="0" step="0.1" id="prod-sellingPrice"
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none transition-all"
+                           placeholder="7"/>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 ml-1">çəki</label>
+                    <input type="number" min="0" step="0.1" id="prod-weight"
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none transition-all"
+                           placeholder="2.5"/>
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button type="button" onclick="closeProductModal()"
+                            class="flex-1 px-4 py-3 border border-slate-200 rounded-xl hover:bg-slate-50 font-bold text-slate-600 transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="flex-1 px-4 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 font-bold shadow-lg shadow-orange-100 transition-all">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script is:inline src="/services/product.js"></script>
+</MainLayout>

@@ -1,0 +1,116 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Məhsul Detalları">
+    <div class="ml-64 min-h-screen bg-slate-50">
+        <div class="p-8">
+            <a href="/products" class="text-green-600 hover:underline mb-4 inline-block">&larr; Məhsullara Qayıt</a>
+
+            <div id="productDetail" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Məhsul Kartı -->
+                <div class="bg-white rounded-xl border shadow-sm p-6">
+                    <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-4">
+                        <i data-lucide="package" class="w-8 h-8 text-green-600"></i>
+                    </div>
+                    <h2 id="detailProductName" class="text-2xl font-bold text-slate-800">-</h2>
+                    <div class="mt-4 space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Stok:</span>
+                            <span id="detailStock" class="font-semibold text-slate-800">-</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Alış Qiyməti:</span>
+                            <span id="detailBuyPrice" class="font-semibold text-slate-800">- AZN</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Satış Qiyməti:</span>
+                            <span id="detailSellPrice" class="font-semibold text-slate-800">- AZN</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Çəki:</span>
+                            <span id="detailWeight" class="font-semibold text-slate-800">- kq</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Yaradılma:</span>
+                            <span id="detailCreatedAt" class="text-sm text-slate-400">-</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t">
+                        <div class="flex justify-between text-lg">
+                            <span class="font-semibold text-slate-700">Proqnoz Mənfəət:</span>
+                            <span id="detailProfit" class="font-bold text-emerald-600">0 AZN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alış & Satış Geçmişi -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Satışlar -->
+                    <div class="bg-white rounded-xl border shadow-sm">
+                        <div class="px-6 py-4 border-b bg-slate-50">
+                            <h3 class="font-bold text-slate-800">Satış Tarixçəsi</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-slate-100">
+                                    <tr>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Tarix</th>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Miqdar</th>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Qiymət</th>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Çəki</th>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Cəm</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productSales"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Alışlar -->
+                    <div class="bg-white rounded-xl border shadow-sm">
+                        <div class="px-6 py-4 border-b bg-slate-50">
+                            <h3 class="font-bold text-slate-800">Alış Tarixçəsi</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-slate-100">
+                                    <tr>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Tarix</th>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Miqdar</th>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Qiymət</th>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Çəki</th>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Cəm</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productPurchases"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Stok Qalıq Tarixçəsi -->
+                    <div class="bg-white rounded-xl border shadow-sm">
+                        <div class="px-6 py-4 border-b bg-slate-50">
+                            <h3 class="font-bold text-slate-800">Stok Qalıqları</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-slate-100">
+                                    <tr>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Tarix</th>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Açıqlama</th>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Miqdar</th>
+                                        <th class="text-left px-4 py-2 text-xs font-semibold text-slate-600">Çəki</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productStockBalances"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</MainLayout>
+
+<script is:inline src="/services/product.js"></script>

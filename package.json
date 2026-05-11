@@ -1,0 +1,13 @@
+{
+  "name": "goldenfruit-erp",
+  "version": "1.0.0",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron ."
+  },
+  "devDependencies": {
+    "electron": "latest"
+  }
+}

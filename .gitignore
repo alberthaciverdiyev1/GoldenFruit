@@ -1,0 +1,9 @@
+node_modules/
+front/node_modules/
+back/bin/
+back/obj/
+front/dist/
+.env
+*.db3
+.claude/
+yeni qrafik*.xlsx

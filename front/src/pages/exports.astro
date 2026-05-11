@@ -1,0 +1,139 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="İxrac">
+    <div class="ml-64 min-h-screen bg-slate-50">
+        <div class="p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-slate-800">Xaricə İxrac</h1>
+                <button onclick="openExportModal()" class="bg-violet-500 text-white px-4 py-2 rounded-lg hover:bg-violet-600 transition-colors">+ Yeni İxrac</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="bg-white p-4 rounded-xl border shadow-sm">
+                    <div class="text-sm text-slate-500">Cəmi Məbləğ</div>
+                    <div class="text-2xl font-bold text-slate-800"><span id="exportTotal">0</span> AZN</div>
+                </div>
+                <div class="bg-white p-4 rounded-xl border shadow-sm">
+                    <div class="text-sm text-slate-500">Ödənən</div>
+                    <div class="text-2xl font-bold text-green-600"><span id="exportPaid">0</span> AZN</div>
+                </div>
+                <div class="bg-white p-4 rounded-xl border shadow-sm">
+                    <div class="text-sm text-slate-500">Qalıq Borc</div>
+                    <div class="text-2xl font-bold text-red-600"><span id="exportDebt">0</span> AZN</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border shadow-sm overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Tarix</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Müştəri</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Ünvan</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Növ</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Miqdar</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Net Çəki</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Məbləğ</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Ödəniş</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Borc</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Şoför</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Əməliyyat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exportTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="exportModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-2xl mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <h2 id="exportModalTitle" class="text-xl font-bold text-slate-800 mb-4">Yeni İxrac</h2>
+            <form onsubmit="saveExport(event)">
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Tarix</label>
+                        <input type="date" id="exportDate" class="w-full border rounded-lg px-3 py-2" required>
+                    </div>
+                    <div class="col-span-3 md:col-span-1">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Ünvan</label>
+                        <input type="text" id="exportDestination" class="w-full border rounded-lg px-3 py-2" placeholder="Bakı, Astara, Gəncə..." required>
+                    </div>
+                    <div class="col-span-3 md:col-span-1">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Müştəri</label>
+                        <input type="text" id="exportCustomer" class="w-full border rounded-lg px-3 py-2" placeholder="Tom, Bazarstore..." required>
+                    </div>
+                    <div class="col-span-3 md:col-span-1">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Məhsul Növü</label>
+                        <input type="text" id="exportProductType" class="w-full border rounded-lg px-3 py-2" placeholder="boyuk, xirda, 2il boyuk">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Miqdar</label>
+                        <input type="number" step="any" id="exportQuantity" class="w-full border rounded-lg px-3 py-2" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Palet</label>
+                        <input type="number" id="exportPallet" class="w-full border rounded-lg px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Kaset Çəkisi</label>
+                        <input type="number" step="0.1" id="exportBoxWeight" class="w-full border rounded-lg px-3 py-2" oninput="calcNetWeight()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Kasetlə Çəki</label>
+                        <input type="number" step="0.1" id="exportWeightWithBox" class="w-full border rounded-lg px-3 py-2" oninput="calcNetWeight()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Net Çəki</label>
+                        <input type="number" step="0.1" id="exportNetWeight" class="w-full border rounded-lg px-3 py-2" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Qiymət (manat/kq)</label>
+                        <input type="number" step="0.01" id="exportPrice" class="w-full border rounded-lg px-3 py-2" oninput="calcTotalAmount()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Əlavə Xərc (maşın)</label>
+                        <input type="number" step="0.01" id="exportExtraCost" class="w-full border rounded-lg px-3 py-2" oninput="calcTotalAmount()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Cəm Məbləğ</label>
+                        <input type="number" step="0.01" id="exportTotal" class="w-full border rounded-lg px-3 py-2" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Ödəniş</label>
+                        <input type="number" step="0.01" id="exportPaid" class="w-full border rounded-lg px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Qalıq Borc</label>
+                        <input type="number" step="0.01" id="exportDebt" class="w-full border rounded-lg px-3 py-2">
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Şoför</label>
+                        <input type="text" id="exportDriver" class="w-full border rounded-lg px-3 py-2" placeholder="Namiq, Cavid, Elvin...">
+                    </div>
+                    <div class="col-span-3 md:col-span-1">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Telefon</label>
+                        <input type="text" id="exportPhone" class="w-full border rounded-lg px-3 py-2">
+                    </div>
+                    <div class="col-span-3 md:col-span-1">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Maşın №</label>
+                        <input type="text" id="exportPlate" class="w-full border rounded-lg px-3 py-2">
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Qeyd</label>
+                        <input type="text" id="exportNote" class="w-full border rounded-lg px-3 py-2">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3 mt-6">
+                    <button type="button" onclick="closeExportModal()" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg">Ləğv et</button>
+                    <button type="submit" class="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600">Yadda saxla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</MainLayout>
+
+<script is:inline src="/services/export.js"></script>

@@ -1,0 +1,115 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Dashboard">
+    <div class="ml-64 min-h-screen">
+        <div class="p-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-slate-800 tracking-tight">Dashboard</h1>
+                <p class="text-slate-500 mt-1">GoldenFruit ERP sistemine hoş geldiniz.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <a href="/customers" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-orange-200 transition-all group">
+                    <div class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-orange-200 transition-colors">
+                        <i data-lucide="users" class="w-7 h-7 text-orange-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1">Müşteriler</h3>
+                    <p class="text-slate-400 text-sm">Cari hesapları yönetin</p>
+                </a>
+
+                <a href="/employees" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-blue-200 transition-all group">
+                    <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
+                        <i data-lucide="user-check" class="w-7 h-7 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1">İşçilər</h3>
+                    <p class="text-slate-400 text-sm">İşçi ve maaş yönetimi</p>
+                </a>
+
+                <a href="/products" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-green-200 transition-all group">
+                    <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-green-200 transition-colors">
+                        <i data-lucide="package" class="w-7 h-7 text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1">Məhsullar</h3>
+                    <p class="text-slate-400 text-sm">Stok ve ürün takibi</p>
+                </a>
+
+                <a href="/sales" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-purple-200 transition-all group">
+                    <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-purple-200 transition-colors">
+                        <i data-lucide="shopping-cart" class="w-7 h-7 text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1">Satışlar</h3>
+                    <p class="text-slate-400 text-sm">Satış kaydı ve takibi</p>
+                </a>
+
+                <a href="/purchases" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-emerald-200 transition-all group">
+                    <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-emerald-200 transition-colors">
+                        <i data-lucide="shopping-bag" class="w-7 h-7 text-emerald-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1">Alışlar</h3>
+                    <p class="text-slate-400 text-sm">Alış kaydı ve takibi</p>
+                </a>
+
+                <a href="/bags" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-indigo-200 transition-all group">
+                    <div class="w-14 h-14 bg-indigo-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors">
+                        <i data-lucide="archive" class="w-7 h-7 text-indigo-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1">Kaset</h3>
+                    <p class="text-slate-400 text-sm">Kaset / bağ takibi</p>
+                </a>
+
+                <a href="/expenses" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-rose-200 transition-all group">
+                    <div class="w-14 h-14 bg-rose-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-rose-200 transition-colors">
+                        <i data-lucide="wallet" class="w-7 h-7 text-rose-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1">Anbar Xərcləri</h3>
+                    <p class="text-slate-400 text-sm">Depo giderleri takibi</p>
+                </a>
+
+                <a href="/advances" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-amber-200 transition-all group">
+                    <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-amber-200 transition-colors">
+                        <i data-lucide="banknote" class="w-7 h-7 text-amber-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1">Avans</h3>
+                    <p class="text-slate-400 text-sm">Tedarikçi avans takibi</p>
+                </a>
+
+                <a href="/drivers" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-cyan-200 transition-all group">
+                    <div class="w-14 h-14 bg-cyan-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-cyan-200 transition-colors">
+                        <i data-lucide="truck" class="w-7 h-7 text-cyan-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1">Şoförlər</h3>
+                    <p class="text-slate-400 text-sm">Şoför maaş ve sefer takibi</p>
+                </a>
+
+                <a href="/exports" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-violet-200 transition-all group">
+                    <div class="w-14 h-14 bg-violet-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-violet-200 transition-colors">
+                        <i data-lucide="globe" class="w-7 h-7 text-violet-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1">İxrac</h3>
+                    <p class="text-slate-400 text-sm">Xaricə satış sevkiyatı</p>
+                </a>
+
+                <a href="/stockbalances" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-teal-200 transition-all group">
+                    <div class="w-14 h-14 bg-teal-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-teal-200 transition-colors">
+                        <i data-lucide="scale" class="w-7 h-7 text-teal-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1">Stok Qalıqları</h3>
+                    <p class="text-slate-400 text-sm">Günlük stok bakiyeleri</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</MainLayout>
+
+<script>
+    import {createIcons, Users, UserCheck, Package, ShoppingCart, LayoutDashboard, Archive, ShoppingBag, Wallet, Banknote, Truck, Globe, Scale} from 'lucide';
+
+    createIcons({
+        icons: {
+            Users, UserCheck, Package, ShoppingCart, LayoutDashboard, Archive, ShoppingBag,
+            Wallet, Banknote, Truck, Globe, Scale
+        }
+    });
+</script>

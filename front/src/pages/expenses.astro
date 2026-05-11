@@ -1,0 +1,96 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Anbar Xərcləri">
+    <div class="ml-64 min-h-screen bg-slate-50">
+        <div class="p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-slate-800">Anbar Xərcləri</h1>
+                <button onclick="openExpenseModal()" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">+ Yeni Xərc</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="bg-white p-4 rounded-xl border shadow-sm">
+                    <div class="text-sm text-slate-500">Cəmi Xərclər</div>
+                    <div class="text-2xl font-bold text-slate-800"><span id="totalExpense">0</span> AZN</div>
+                </div>
+                <div class="bg-white p-4 rounded-xl border shadow-sm">
+                    <div class="text-sm text-slate-500">Ödənən</div>
+                    <div class="text-2xl font-bold text-green-600"><span id="paidExpense">0</span> AZN</div>
+                </div>
+                <div class="bg-white p-4 rounded-xl border shadow-sm">
+                    <div class="text-sm text-slate-500">Qalan Borc</div>
+                    <div class="text-2xl font-bold text-red-600"><span id="debtExpense">0</span> AZN</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border shadow-sm overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Tarix</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Xərc</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Açıqlama</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Say</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Qiymət</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Cəm</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Ödəndi</th>
+                            <th class="text-left px-4 py-3 text-sm font-semibold text-slate-600">Əməliyyat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenseTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="expenseModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-lg mx-4 shadow-2xl">
+            <h2 id="modalTitle" class="text-xl font-bold text-slate-800 mb-4">Yeni Xərc</h2>
+            <form onsubmit="saveExpense(event)">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Tarix</label>
+                        <input type="date" id="expenseDate" class="w-full border rounded-lg px-3 py-2" required>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Xərc Adı</label>
+                        <input type="text" id="expenseName" class="w-full border rounded-lg px-3 py-2" placeholder="yanacaq, təmir, ərzaq..." required>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Açıqlama</label>
+                        <input type="text" id="expenseDesc" class="w-full border rounded-lg px-3 py-2" placeholder="isteğe bağlı">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Say</label>
+                        <input type="number" step="any" id="expenseCount" class="w-full border rounded-lg px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Qiymət</label>
+                        <input type="number" step="0.01" id="expenseUnitPrice" class="w-full border rounded-lg px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Cəm Məbləğ</label>
+                        <input type="number" step="0.01" id="expenseTotal" class="w-full border rounded-lg px-3 py-2" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Ödənən Məbləğ</label>
+                        <input type="number" step="0.01" id="expensePaid" class="w-full border rounded-lg px-3 py-2">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Qeyd</label>
+                        <input type="text" id="expenseNote" class="w-full border rounded-lg px-3 py-2">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3 mt-6">
+                    <button type="button" onclick="closeExpenseModal()" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg">Ləğv et</button>
+                    <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Yadda saxla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</MainLayout>
+
+<script is:inline src="/services/expense.js"></script>

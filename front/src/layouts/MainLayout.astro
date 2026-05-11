@@ -1,0 +1,71 @@
+---
+import ClientRouter from 'astro/components/ClientRouter.astro';
+import Sidebar from '../components/Sidebar.astro';
+const { title = "GoldenFruit ERP" } = Astro.props;
+---
+
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!--<ClientRouter />-->
+</head>
+<body class="bg-slate-50 flex h-screen overflow-hidden">
+
+<Sidebar />
+
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+    <header class="h-16 bg-white border-b border-slate-200 flex items-center px-8 justify-between shrink-0">
+        <h2 class="text-xl font-semibold text-slate-700">{title}</h2>
+        <div class="flex items-center gap-4">
+            <div class="text-right hidden sm:block">
+                <p class="text-sm font-bold text-slate-700 leading-none">Polad Azimlee</p>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Admin</p>
+            </div>
+            <div class="w-10 h-10 bg-gradient-to-tr from-orange-600 to-orange-400 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-orange-100">
+                P
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-1 overflow-y-auto bg-slate-50">
+        <slot />
+    </div>
+</main>
+
+<div id="update-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-[200] flex items-center justify-center p-4">
+    <div class="bg-white rounded-[2.5rem] shadow-2xl w-[600px] overflow-hidden border border-white/20 animate-in fade-in zoom-in duration-200">
+        <div class="p-6 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
+            <div>
+                <h3 class="text-2xl font-black text-slate-800 tracking-tight">Proqram Yeniləmə</h3>
+            </div>
+            <button id="update-btn-close" onclick="document.getElementById('update-modal').classList.add('hidden')"
+                    class="w-10 h-10 flex items-center justify-center rounded-2xl hover:bg-slate-100 text-slate-400 transition-all">
+                <i class='bx bx-x text-3xl'></i>
+            </button>
+        </div>
+
+        <div class="p-8 space-y-6">
+            <div id="update-status" class="text-lg font-black text-blue-600 tracking-tight">Yoxlanılır...</div>
+
+            <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+                <div id="update-progress-bar" class="h-full bg-gradient-to-r from-blue-500 to-green-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+
+            <div id="update-log" class="bg-slate-50 rounded-2xl p-5 h-64 overflow-y-auto font-mono text-sm space-y-1 border border-slate-100">
+            </div>
+
+            <div class="flex gap-3 justify-end">
+                <button id="update-btn-start" class="hidden px-8 py-3 bg-blue-600 text-white rounded-xl font-bold shadow-lg hover:bg-blue-700 transition-all active:scale-95">
+                    Proqramı Yenidən Başlat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script is:inline src="/services/updater.js"></script>
+</body>
+</html>
