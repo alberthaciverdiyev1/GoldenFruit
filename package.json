@@ -7,7 +7,8 @@
     "start": "electron .",
     "dev": "electron .",
     "build:frontend": "cd front && npm run build",
-    "build:backend": "cd back && dotnet publish -c Release -r win-x64 --self-contained true -o ../release/backend",
+    "clean": "rm -rf release front/dist",
+    "build:backend": "dotnet publish back/GoldenFruit.Backend.csproj -c Release -r win-x64 --self-contained true -o \"release/backend\"",
     "build:exe": "npm run build:frontend && npm run build:backend && electron-builder --win portable",
     "build:installer": "npm run build:frontend && npm run build:backend && electron-builder --win nsis"
   },
