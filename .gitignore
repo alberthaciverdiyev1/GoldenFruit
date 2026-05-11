@@ -3,6 +3,7 @@ front/node_modules/
 back/bin/
 back/obj/
 front/dist/
+release/
 .env
 *.db3
 .claude/

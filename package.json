@@ -5,9 +5,52 @@
   "private": true,
   "scripts": {
     "start": "electron .",
-    "dev": "electron ."
+    "dev": "electron .",
+    "build:frontend": "cd front && npm run build",
+    "build:backend": "cd back && dotnet publish -c Release -r win-x64 --self-contained true -o ../release/backend",
+    "build:exe": "npm run build:frontend && npm run build:backend && electron-builder --win portable",
+    "build:installer": "npm run build:frontend && npm run build:backend && electron-builder --win nsis"
+  },
+  "build": {
+    "appId": "com.goldenfruit.erp",
+    "productName": "GoldenFruit ERP",
+    "directories": {
+      "output": "release/dist"
+    },
+    "files": [
+      "main.js",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "release/backend",
+        "to": "backend",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "front/dist",
+        "to": "frontend",
+        "filter": ["**/*"]
+      }
+    ],
+    "win": {
+      "target": [
+        "portable",
+        "nsis"
+      ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-portable.exe"
+    }
   },
   "devDependencies": {
-    "electron": "latest"
+    "electron": "latest",
+    "electron-builder": "^25.1.8"
   }
 }

@@ -201,12 +201,13 @@ ipcMain.handle('update:restart', async () => {
 });
 
 // =====================
-// EXISTING APP CODE
+// PRODUCTION / DEV MODE
 // =====================
 
-function startBackend() {
-    const backendDir = path.join(__dirname, 'back');
+const isPackaged = app.isPackaged;
+let staticServer = null;
 
+function startBackend() {
     // Önceki backend sürecini temizle (port 5005)
     try {
         const result = execSync('netstat -ano | findstr ":5005"', { encoding: 'utf8', stdio: 'pipe' });
@@ -220,7 +221,14 @@ function startBackend() {
         }
     } catch {}
 
-    backendProcess = spawn('dotnet', ['run', '--project', backendDir], { shell: true });
+    if (isPackaged) {
+        const backendExe = path.join(process.resourcesPath, 'backend', 'GoldenFruit.Backend.exe');
+        console.log(`[Main] Starting packaged backend: ${backendExe}`);
+        backendProcess = spawn(backendExe, [], { shell: true });
+    } else {
+        const backendDir = path.join(__dirname, 'back');
+        backendProcess = spawn('dotnet', ['run', '--project', backendDir], { shell: true });
+    }
 
     backendProcess.stdout.on('data', (data) => {
         const msg = data.toString().trim();
@@ -241,30 +249,76 @@ function startBackend() {
     });
 }
 
+function startFileServer(dir, port) {
+    const mimeTypes = {
+        '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
+        '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml',
+        '.ico': 'image/x-icon', '.json': 'application/json', '.woff2': 'font/woff2'
+    };
+
+    const server = http.createServer((req, res) => {
+        let urlPath = req.url.split('?')[0];
+        let filePath = path.join(dir, urlPath === '/' ? 'index.html' : urlPath);
+
+        if (!fs.existsSync(filePath)) {
+            // Astro static: /sales → /sales/index.html
+            const indexFallback = path.join(dir, urlPath, 'index.html');
+            if (fs.existsSync(indexFallback)) {
+                filePath = indexFallback;
+            } else {
+                // Fallback: /sales.html (Astro flat output)
+                const htmlFallback = path.join(dir, urlPath + '.html');
+                if (fs.existsSync(htmlFallback)) {
+                    filePath = htmlFallback;
+                } else {
+                    res.writeHead(404);
+                    res.end('Not Found');
+                    return;
+                }
+            }
+        }
+
+        const ext = path.extname(filePath);
+        res.writeHead(200, { 'Content-Type': mimeTypes[ext] || 'application/octet-stream' });
+        fs.createReadStream(filePath).pipe(res);
+    });
+
+    server.listen(port, () => {
+        console.log(`[Main] Static file server ready on port ${port}`);
+    });
+
+    return server;
+}
+
 function startFrontend() {
-    const frontendDir = path.join(__dirname, 'front');
+    if (isPackaged) {
+        const frontendDir = path.join(process.resourcesPath, 'frontend');
+        console.log(`[Main] Starting static frontend from: ${frontendDir}`);
+        staticServer = startFileServer(frontendDir, 4321);
+    } else {
+        const frontendDir = path.join(__dirname, 'front');
+        frontendProcess = spawn('npm', ['run', 'dev', '--', '--port', '4321'], {
+            cwd: frontendDir, shell: true
+        });
 
-    frontendProcess = spawn('npm', ['run', 'dev', '--', '--port', '4321'], {
-        cwd: frontendDir, shell: true
-    });
+        frontendProcess.stdout.on('data', (data) => {
+            const msg = data.toString().trim();
+            if (msg) console.log(`[Frontend] ${msg}`);
+        });
 
-    frontendProcess.stdout.on('data', (data) => {
-        const msg = data.toString().trim();
-        if (msg) console.log(`[Frontend] ${msg}`);
-    });
+        frontendProcess.stderr.on('data', (data) => {
+            const msg = data.toString().trim();
+            if (msg) console.error(`[Frontend] ${msg}`);
+        });
 
-    frontendProcess.stderr.on('data', (data) => {
-        const msg = data.toString().trim();
-        if (msg) console.error(`[Frontend] ${msg}`);
-    });
+        frontendProcess.on('error', (err) => {
+            console.error('[Frontend] Failed to start:', err.message);
+        });
 
-    frontendProcess.on('error', (err) => {
-        console.error('[Frontend] Failed to start:', err.message);
-    });
-
-    frontendProcess.on('exit', (code) => {
-        console.log(`[Frontend] Process exited with code ${code}`);
-    });
+        frontendProcess.on('exit', (code) => {
+            console.log(`[Frontend] Process exited with code ${code}`);
+        });
+    }
 }
 
 function waitForServer(url, label, retries = 45) {
@@ -336,6 +390,10 @@ app.on('window-all-closed', () => {
         try { spawn("taskkill", ["/pid", String(frontendProcess.pid), '/f', '/t']); } catch (_) {}
         frontendProcess = null;
     }
+    if (staticServer) {
+        try { staticServer.close(); } catch (_) {}
+        staticServer = null;
+    }
     if (process.platform !== 'darwin') app.quit();
 });
 
@@ -347,5 +405,9 @@ app.on('before-quit', () => {
     if (frontendProcess) {
         try { spawn("taskkill", ["/pid", String(frontendProcess.pid), '/f', '/t']); } catch (_) {}
         frontendProcess = null;
+    }
+    if (staticServer) {
+        try { staticServer.close(); } catch (_) {}
+        staticServer = null;
     }
 });
